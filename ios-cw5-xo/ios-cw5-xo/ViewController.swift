@@ -13,6 +13,7 @@ import AVFoundation
 class ViewController: UIViewController {
     
     @IBOutlet weak var turnLabel: UILabel!
+    
     @IBOutlet weak var b1: UIButton!
     @IBOutlet weak var b2: UIButton!
     @IBOutlet weak var b3: UIButton!
@@ -22,16 +23,33 @@ class ViewController: UIViewController {
     @IBOutlet weak var b7: UIButton!
     @IBOutlet weak var b8: UIButton!
     @IBOutlet weak var b9: UIButton!
+    
     @IBOutlet weak var backaGround: UIImageView!
+    
     @IBOutlet weak var oScore: UILabel!
     @IBOutlet weak var xScore: UILabel!
     
     var turn = 0
     
     var backGroundMusic: AVAudioPlayer?
+    var buttonsSoundsPlayer: AVAudioPlayer?
+    var soundsNames: [String] = []
+    var XScore = 0
+    var OScore = 0
+    
+    // This is the first function that will get called in this view controller
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        playbackGroundMusic()
+        
+        for i in 1...9{
+            soundsNames.append("\(i).mp3")
+        }
+        // Do any additional setup after loading the view.
+    }
     
     func playbackGroundMusic(){
-        let path = Bundle.main.path(forResource: "RPReplay_Final1593486900.MP4", ofType:nil)!
+        let path = Bundle.main.path(forResource: "bg.MP4", ofType:nil)!
         let url = URL(fileURLWithPath: path)
         
         do {
@@ -43,32 +61,19 @@ class ViewController: UIViewController {
     }
     
     func playrandomSound(){
-        var soundName = ["RPReplay_Final1593486461.mp3",
-            "RPReplay_Final1593486094.mp3",
-            "RPReplay_Final1593486174_2.mp3",
-            "RPReplay_Final1593485636.mp3",
-            "RPReplay_Final1593480097.mp3",
-            "RPReplay_Final1593479794.mp3",
-            "RPReplay_Final1593479685.mp3",
-            "RPReplay_Final1593479589.mp3",
-            "RPReplay_Final1593479751.mp3"]
-        
-        let path = Bundle.main.path(forResource: soundName[0], ofType: nil!)!
-        let url = URL(fileURLWithPath: path)
+        let randomSound = soundsNames.randomElement()!
+        print(randomSound)
+        let path = Bundle.main.path(forResource: randomSound, ofType: nil)
+        let url = URL(fileURLWithPath: path!)
         
         do {
-            backGroundMusic = try AVAudioPlayer(contentsOf: url)
-            backGroundMusic?.play()
+            buttonsSoundsPlayer = try AVAudioPlayer(contentsOf: url)
+            buttonsSoundsPlayer?.play()
         } catch {
             // couldn't load file :(
         }
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        playbackGroundMusic()
-        
-        // Do any additional setup after loading the view.
-    }
+    
     
     @IBAction func tap(_ sender: UIButton) {
         if turn % 2 == 0{
@@ -96,7 +101,7 @@ class ViewController: UIViewController {
             okAlert(title: "No one wins", message: "now reset the game!!")
             
         }
- playrandomSound()
+        playrandomSound()
         
     }
     
@@ -126,7 +131,7 @@ class ViewController: UIViewController {
         }
         else{
             return false
-            
+             
         }
     }
     
