@@ -60,6 +60,14 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func muteAction(_ sender: UIButton) {
+        if backGroundMusic!.isPlaying {
+            backGroundMusic?.stop()
+        } else {
+            playbackGroundMusic()
+        }
+    }
+    
     func playrandomSound(){
         let randomSound = soundsNames.randomElement()!
         print(randomSound)
@@ -92,17 +100,37 @@ class ViewController: UIViewController {
         turn += 1
         
         if checkWinner(p: "X"){
+            XScore += 1
+            xScore.text = "\(XScore)"
             okAlert(title: " X wins 🎉", message: "Congratulations, now reset the game!!")
+            
         }
         else if checkWinner(p: "O"){
+            OScore += 1
+            oScore.text = "\(OScore)"
             okAlert(title: " O wins 🎉", message: "Congratulations, now reset the game!!")
         }
         else if turn == 9{
             okAlert(title: "No one wins", message: "now reset the game!!")
             
         }
-        playrandomSound()
-        
+       if XScore == 3{
+        resetGame()
+            XScore = 0
+            OScore = 0
+            xScore.text = "\(XScore)"
+          oScore.text = "\(OScore)"
+            okAlert(title: "Ultimate winner is X", message: "now reset the game!!")
+            
+        } else if OScore == 3{
+                  resetGame()
+                      XScore = 0
+                      OScore = 0
+            oScore.text = "\(OScore)"
+          xScore.text = "\(XScore)"
+        okAlert(title: "Ultimate winner is X", message: "now reset the game!!")
+        }
+          playrandomSound()
     }
     
     func checkWinner(p: String) -> Bool{
