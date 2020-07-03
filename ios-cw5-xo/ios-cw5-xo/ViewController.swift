@@ -95,43 +95,44 @@ class ViewController: UIViewController {
             turnLabel.text = ("X Turn")
             sender.setTitleColor(.blue, for: .normal)
         }
-        print(turn)
-        sender.isUserInteractionEnabled = false
-        turn += 1
-        
+            print(turn)
+            sender.isUserInteractionEnabled = false
+            turn += 1
+    }
         if checkWinner(p: "X"){
             XScore += 1
             xScore.text = "\(XScore)"
-            okAlert(title: " X wins 🎉", message: "Congratulations, now reset the game!!")
-            
+            if XScore == 3{
+                resetGame()
+                XScore = 0
+                OScore = 0
+                xScore.text = "\(XScore)"
+                oScore.text = "\(OScore)"
+                okAlert(title: "Ultimate winner is X", message: "now reset the game!!")
+                
+            }else{
+                okAlert(title: " X wins 🎉", message: "Congratulations, now reset the game!!")
+            }
         }
         else if checkWinner(p: "O"){
             OScore += 1
             oScore.text = "\(OScore)"
-            okAlert(title: " O wins 🎉", message: "Congratulations, now reset the game!!")
-        }
-        else if turn == 9{
+            if OScore == 3{
+                resetGame()
+                XScore = 0
+                OScore = 0
+                oScore.text = "\(OScore)"
+                xScore.text = "\(XScore)"
+                okAlert(title: "Ultimate winner is X", message: "now reset the game!!")
+            }else {
+                okAlert(title: " O wins 🎉", message: "Congratulations, now reset the game!!")
+            }
+        }else if turn == 9{
             okAlert(title: "No one wins", message: "now reset the game!!")
-            
         }
-       if XScore == 3{
-        resetGame()
-            XScore = 0
-            OScore = 0
-            xScore.text = "\(XScore)"
-          oScore.text = "\(OScore)"
-            okAlert(title: "Ultimate winner is X", message: "now reset the game!!")
-            
-        } else if OScore == 3{
-                  resetGame()
-                      XScore = 0
-                      OScore = 0
-            oScore.text = "\(OScore)"
-          xScore.text = "\(XScore)"
-        okAlert(title: "Ultimate winner is X", message: "now reset the game!!")
-        }
-          playrandomSound()
-    }
+    
+        playrandomSound()
+    
     
     func checkWinner(p: String) -> Bool{
         let f1 = b1.titleLabel?.text
@@ -159,14 +160,8 @@ class ViewController: UIViewController {
         }
         else{
             return false
-             
+            
         }
-    }
-    
-    
-    
-    @IBAction func reset(_ sender: Any) {
-        resetGame()
         
     }
     func resetGame(){
@@ -206,8 +201,6 @@ class ViewController: UIViewController {
         } else{
             backaGround.image = UIImage(named:  "DCdXVvLXcAELB8M")
         }
-        
-    }
     
     func okAlert(title: String, message: String)
     {
@@ -220,4 +213,5 @@ class ViewController: UIViewController {
     }
 }
 
+}
 
